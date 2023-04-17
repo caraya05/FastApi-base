@@ -1,0 +1,7 @@
+.venv
+.envs
+sql_app.db
+.postgres_data_base
+.idea
+*.pyc
+__pycache__
