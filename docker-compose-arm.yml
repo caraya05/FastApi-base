@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  base_service:
+    build:
+        context: .
+        dockerfile: .docker/DockerfileARM
+    command: ./fastapi-entrypoint-loc.sh
+    env_file:
+      - .envs/..envs
+    volumes:
+      - ./src:/code
+    ports:
+      - 9001:9000
+    environment:
+      - DATABASE_URI=postgresql://base_db_username:base_db_password@base_db/base_db_dev
+    depends_on:
+      - base_db
+
+  base_db:
+    image: postgres:12.1-alpine
+#    ports:
+#      - 5432:5432
+    volumes:
+      - .postgres_data_base:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=base_db_username
+      - POSTGRES_PASSWORD=base_db_password
+      - POSTGRES_DB=base_db_dev
